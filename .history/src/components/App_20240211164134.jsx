@@ -44,7 +44,7 @@ export const App = () => {
       }
 
       if (page * 12 >= totalHits) {
-        setIsEnd(true);
+        this.setState({ isEnd: true });
         toast("Uh-oh!, you've reached the end of search results.", {
           icon: '🚨',
         });

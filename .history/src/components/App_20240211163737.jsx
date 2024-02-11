@@ -27,11 +27,12 @@ export const App = () => {
     try {
       setIsLoading(true);
 
+      // fetch data from API
       const fetchedImages = await getAPI(search, page);
       const { hits, totalHits } = fetchedImages;
 
       console.log(hits, totalHits);
-
+      // Display an error message, if there is no match with the search
       if (hits.length === 0) {
         toast.error(
           'Sorry, there are no images matching your search query. Please try again.'
@@ -39,17 +40,18 @@ export const App = () => {
         return;
       }
 
+      // Display a success message if it's the first page
       if (page === 1) {
-        toast.success(`Yahoo! We found ${totalHits} images!`);
+        toast.success(`Hooray! We found ${totalHits} images!`);
       }
 
+      // Display a message if page is already at the end of data (12 = per_page based on API call)
       if (page * 12 >= totalHits) {
         setIsEnd(true);
-        toast("Uh-oh!, you've reached the end of search results.", {
-          icon: '🚨',
-        });
+        toast("We're sorry, but you've reached the end of search results.");
       }
 
+      // Update the state with the new images
       setImages(prevState => [...prevState, ...hits]);
     } catch {
       setIsError(true);
